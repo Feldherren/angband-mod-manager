@@ -15,6 +15,8 @@ def make_config(config):
     config['directories'] = {
         'mod_folder': os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mods'),
         'angband_folder': None
+        'mods': os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mods'),
+        'angband': None
     }
     with open('manager.ini', 'w') as configfile:
         config.write(configfile)
