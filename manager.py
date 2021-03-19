@@ -24,10 +24,14 @@ def make_config(config):
 
 def startup():
     this_path = os.path.dirname(os.path.realpath(__file__))
+def startup(config):
     # confirm config file exists
     # if not os.path.exists(os.path.join(this_path, 'mods'))
+    read_config(config)
     # confirm mod folder exists
 
 read_config(config)
 
 print(config.sections())
+    if not os.path.exists(config['directories']['mods']):
+        os.mkdir(config['directories']['mods'])
