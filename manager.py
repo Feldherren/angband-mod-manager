@@ -4,6 +4,7 @@ import os
 config = configparser.ConfigParser(allow_no_value=True)
 
 def read_config(config):
+    # confirm config file exists
     if os.path.exists('manager.ini'):
         config.read('manager.ini')
     else:
