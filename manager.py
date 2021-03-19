@@ -2,6 +2,7 @@ import configparser
 import os
 
 config = configparser.ConfigParser(allow_no_value=True)
+mod_list = []
 
 def read_config(config):
     # confirm config file exists
