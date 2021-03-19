@@ -18,6 +18,11 @@ def make_config(config):
     }
     with open('manager.ini', 'w') as configfile:
         config.write(configfile)
+def list_mods(config):
+    mods = [x[0] for x in os.walk(config['directories']['mods'])]
+    # is this sorted?
+    # at some point going to want to verify these all have manifests or not
+    return mods
 
 def startup(config):
     # confirm config file exists
