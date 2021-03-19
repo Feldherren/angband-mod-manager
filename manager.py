@@ -10,14 +10,18 @@ def read_config(config):
     else:
         make_config(config)
 
+def save_config(config):
+    with open('manager.ini', 'w') as configfile:
+        config.write(configfile)
+
 def make_config(config):
     mod_folder = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mods')
     config['directories'] = {
         'mods': os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mods'),
         'angband': None
     }
-    with open('manager.ini', 'w') as configfile:
-        config.write(configfile)
+    save_config(config)
+
 def list_mods(config):
     mods = [x[0] for x in os.walk(config['directories']['mods'])]
     # is this sorted?
