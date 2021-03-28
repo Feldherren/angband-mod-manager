@@ -22,8 +22,8 @@ def read_config(config):
         make_config(config)
     # todo: check if config contains everything
 
-def save_config(config):
-    with open('manager.ini', 'w') as configfile:
+def save_config(config, file):
+    with open(file, 'w') as configfile:
         config.write(configfile)
 
 def make_config(config):
