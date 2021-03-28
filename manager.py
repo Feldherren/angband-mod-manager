@@ -35,7 +35,7 @@ def make_basic_config(config):
     save_config(config, 'manager.ini')
 
 # may want to store this in a variable and watch for changes in the mod directory at some point, if it starts taking time to scan directory
-def list_mods(config):
+def list_mods():
     mods = [os.path.basename(os.path.normpath(f.path)) for f in os.scandir(config['directories']['mods']) if f.is_dir()]
     # is this sorted?
     # at some point going to want to verify these all have manifests or not
@@ -46,7 +46,7 @@ def get_angband_folder():
     # todo: prompt player to select Angband folder
     return r"G:\angband-4.2.1"
 
-def startup(config):
+def startup():
     # confirm config file exists
     read_config(config)
     # confirm mod folder exists
@@ -92,6 +92,7 @@ def validate_mod(name):
     # check if has manifest.xml
     # check if manifest.xml is properly formatted
     return is_valid
+
 # class MyApp(App):
 #     def build(self):
 #         return Label(text='Hello world')
