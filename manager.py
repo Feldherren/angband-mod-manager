@@ -19,14 +19,14 @@ def read_config(config):
         config.read('manager.ini')
     else:
         #  it didn't exist, so making basic config
-        make_config(config)
+        make_basic_config(config)
     # todo: check if config contains everything
 
 def save_config(config, file):
     with open(file, 'w') as configfile:
         config.write(configfile)
 
-def make_config(config):
+def make_basic_config(config):
     mod_folder = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mods')
     config['directories'] = {
         'mods': os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mods'),
