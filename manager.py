@@ -1,5 +1,7 @@
 import configparser
 import os
+import shutil
+import logging
 
 # import kivy
 # kivy.require('2.0.0')
@@ -7,6 +9,8 @@ import os
 # from kivy.uix.label import Label
 
 config = configparser.ConfigParser(allow_no_value=True)
+logging.basicConfig(level=logging.DEBUG)
+
 mod_list = []
 
 def read_config(config):
@@ -14,7 +18,9 @@ def read_config(config):
     if os.path.exists('manager.ini'):
         config.read('manager.ini')
     else:
+        #  it didn't exist, so making basic config
         make_config(config)
+    # todo: check if config contains everything
 
 def save_config(config):
     with open('manager.ini', 'w') as configfile:
@@ -28,10 +34,12 @@ def make_config(config):
     }
     save_config(config)
 
+# may want to store this in a variable and watch for changes in the mod directory at some point, if it starts taking time to scan directory
 def list_mods(config):
     mods = [os.path.basename(os.path.normpath(f.path)) for f in os.scandir(config['directories']['mods']) if f.is_dir()]
     # is this sorted?
     # at some point going to want to verify these all have manifests or not
+    # print(mods)
     return mods
 
 def get_angband_folder():
@@ -45,9 +53,41 @@ def startup(config):
     if not os.path.exists(config['directories']['mods']):
         os.mkdir(config['directories']['mods'])
 
+    # todo: get angband folder here
+    # for now just setting it for testing purposes
+    if config['directories']['angband'] is None:
+        config['directories']['angband'] = get_angband_folder()
+        # save_config(config)
+
+    # todo: prompt user if they want to save out current gamedata folder as vanilla
+    if not 'vanilla' in list_mods(config):
+        make_mod('vanilla', os.path.join(config['directories']['angband'], 'lib', 'gamedata'))
+
+# takes a name and a location, copies contents as mod
+# probably want a better name for this; 'make_mod_from_preexisting'
+def make_mod(name, location):
+    if name not in list_mods(config):
+        if os.path.exists(location):
+            os.mkdir(os.path.join(config['directories']['mods'], name))
+            os.mkdir(os.path.join(config['directories']['mods'], name, 'gamedata'))
+            for file in os.scandir(location):
+                shutil.copy(file, os.path.join(config['directories']['mods'], name, 'gamedata'))
+        else:
+            logging.error("%s does not exist", location)
+    else:
+        logging.warning("mod '%s' already exists", name)
+
+# checks if mod in manager folder is set up correctly, doesn't have detectable errors
+def validate_mod(name):
+    is_valid = True
+    # check if has manifest.xml
+    # check if manifest.xml is properly formatted
+    # check if has any files in gamedata
+    return is_valid
 # class MyApp(App):
 #     def build(self):
 #         return Label(text='Hello world')
 
 if __name__ == '__main__':
     # MyApp().run()
+    startup(config)
