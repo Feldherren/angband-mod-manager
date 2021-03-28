@@ -66,7 +66,7 @@ def startup():
 # takes a name and a location, copies contents as mod
 # probably want a better name for this; 'make_mod_from_preexisting'
 def make_mod(id, location):
-    if name not in list_mods(config):
+    if name not in list_mods():
         if os.path.exists(location):
             os.mkdir(os.path.join(config['directories']['mods'], id))
             os.mkdir(os.path.join(config['directories']['mods'], id, 'gamedata'))
