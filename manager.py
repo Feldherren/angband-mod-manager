@@ -65,17 +65,41 @@ def startup():
 
 # takes a name and a location, copies contents as mod
 # probably want a better name for this; 'make_mod_from_preexisting'
-def make_mod(id, location):
+# also, check that the location isn't IN the mods folder in the first place; if it's correctly placed, no copying of files is necessary
+def make_mod(location, identifier, name, author, version, target_versions):
     if name not in list_mods():
         if os.path.exists(location):
-            os.mkdir(os.path.join(config['directories']['mods'], id))
-            os.mkdir(os.path.join(config['directories']['mods'], id, 'gamedata'))
+            os.mkdir(os.path.join(config['directories']['mods'], identifier))
+            os.mkdir(os.path.join(config['directories']['mods'], identifier, 'gamedata'))
             for file in os.scandir(location):
-                shutil.copy(file, os.path.join(config['directories']['mods'], id, 'gamedata'))
+                shutil.copy(file, os.path.join(config['directories']['mods'], identifier, 'gamedata'))
+            make_manifest(os.path.join(config['directories']['mods'], identifier), identifier, name, author, version, target_versions)
         else:
             logging.error("%s does not exist", location)
     else:
-        logging.warning("mod '%s' already exists", id)
+        logging.warning("mod '%s' already exists", identifier)
+
+# all of these are text except target_versions, which is a list of text
+def make_manifest(location, identifier, name, author, version, target_versions):
+    # create manifest XML here
+    if os.path.exists(os.path.join(config['directories']['mods'], identifier)):
+        root = etree.Element("manifest")
+        identifier_node = etree.SubElement(root, "identifier")
+        identifier_node.text = identifier
+        name_node = etree.SubElement(root, "name")
+        name_node.text = name
+        author_node = etree.SubElement(root, "author")
+        author_node.text = author
+        version_node = etree.SubElement(root, "version")
+        version_node.text = version
+        target_versions_node = etree.SubElement(root, "target_versions")
+        for target_version in target_versions:
+            t_v = etree.SubElement(target_versions_node, "target_version")
+            t_v.text = target_version
+
+        et = etree.ElementTree(root)
+        et.write(os.path.join(location, 'manifest.xml'), pretty_print=True)
+    # else: error
 
 # checks if mod in manager folder is set up correctly, doesn't have detectable errors
 def validate_mod(id):
