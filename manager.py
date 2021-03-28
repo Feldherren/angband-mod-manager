@@ -102,17 +102,17 @@ def make_manifest(location, identifier, name, author, version, target_versions):
     # else: error
 
 # checks if mod in manager folder is set up correctly, doesn't have detectable errors
-def validate_mod(id):
+def validate_mod(identifier):
     is_valid = True
     # check if directory for mod exists
-    if not os.path.exists(os.path.join(config['directories']['mods'], id)):
+    if not os.path.exists(os.path.join(config['directories']['mods'], identifier)):
         is_valid = False
-        logging.warning("mod '%s' does not exist", id)
+        logging.warning("mod '%s' does not exist", identifier)
     # check if has gamedata folder
-    if not os.path.exists(os.path.join(config['directories']['mods'], id, 'gamedata')):
+    if not os.path.exists(os.path.join(config['directories']['mods'], identifier, 'gamedata')):
         is_valid = False
-        logging.warning("mod '%s' has no gamedata folder", id)
-    # check if has any files in gamedata
+        logging.warning("mod '%s' has no gamedata folder", identifier)
+    # check if has any files in gamedata; needs at least one?
     # check if has manifest.xml
     # check if manifest.xml is properly formatted
     return is_valid
