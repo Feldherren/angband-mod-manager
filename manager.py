@@ -1,5 +1,10 @@
 import configparser
 import os
+import kivy
+kivy.require('2.0.0')
+
+from kivy.app import App
+from kivy.uix.label import Label
 
 config = configparser.ConfigParser(allow_no_value=True)
 mod_list = []
@@ -35,3 +40,10 @@ def startup(config):
     # confirm mod folder exists
     if not os.path.exists(config['directories']['mods']):
         os.mkdir(config['directories']['mods'])
+
+class MyApp(App):
+    def build(self):
+        return Label(text='Hello world')
+
+if __name__ == '__main__':
+    MyApp().run()
