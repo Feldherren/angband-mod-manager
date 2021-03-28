@@ -60,8 +60,8 @@ def startup():
         # save_config(config)
 
     # todo: prompt user if they want to save out current gamedata folder as vanilla
-    if not 'vanilla' in list_mods(config):
-        make_mod('vanilla', os.path.join(config['directories']['angband'], 'lib', 'gamedata'))
+    if not 'angband' in list_mods():
+        make_mod(os.path.join(config['directories']['angband'], 'lib', 'gamedata'), 'angband', 'Angband 4.2.1', 'Angband', '4.2.1', ['4.2.1'])
 
 # takes a name and a location, copies contents as mod
 # probably want a better name for this; 'make_mod_from_preexisting'
