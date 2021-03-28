@@ -3,6 +3,8 @@ import os
 import shutil
 import logging
 
+from lxml import etree
+
 # import kivy
 # kivy.require('2.0.0')
 # from kivy.app import App
