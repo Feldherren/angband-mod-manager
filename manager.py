@@ -123,4 +123,4 @@ def validate_mod(identifier):
 
 if __name__ == '__main__':
     # MyApp().run()
-    startup(config)
+    startup()
