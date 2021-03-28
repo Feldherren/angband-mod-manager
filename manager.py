@@ -65,17 +65,17 @@ def startup():
 
 # takes a name and a location, copies contents as mod
 # probably want a better name for this; 'make_mod_from_preexisting'
-def make_mod(name, location):
+def make_mod(id, location):
     if name not in list_mods(config):
         if os.path.exists(location):
-            os.mkdir(os.path.join(config['directories']['mods'], name))
-            os.mkdir(os.path.join(config['directories']['mods'], name, 'gamedata'))
+            os.mkdir(os.path.join(config['directories']['mods'], id))
+            os.mkdir(os.path.join(config['directories']['mods'], id, 'gamedata'))
             for file in os.scandir(location):
-                shutil.copy(file, os.path.join(config['directories']['mods'], name, 'gamedata'))
+                shutil.copy(file, os.path.join(config['directories']['mods'], id, 'gamedata'))
         else:
             logging.error("%s does not exist", location)
     else:
-        logging.warning("mod '%s' already exists", name)
+        logging.warning("mod '%s' already exists", id)
 
 # checks if mod in manager folder is set up correctly, doesn't have detectable errors
 def validate_mod(name):
