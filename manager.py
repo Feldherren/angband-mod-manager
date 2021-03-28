@@ -32,7 +32,7 @@ def make_basic_config(config):
         'mods': os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mods'),
         'angband': None
     }
-    save_config(config)
+    save_config(config, 'manager.ini')
 
 # may want to store this in a variable and watch for changes in the mod directory at some point, if it starts taking time to scan directory
 def list_mods(config):
