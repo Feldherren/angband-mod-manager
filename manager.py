@@ -80,9 +80,17 @@ def make_mod(name, location):
 # checks if mod in manager folder is set up correctly, doesn't have detectable errors
 def validate_mod(name):
     is_valid = True
+    # check if directory for mod exists
+    if not os.path.exists(os.path.join(config['directories']['mods'], name)):
+        is_valid = False
+        logging.warning("mod '%s' does not exist", name)
+    # check if has gamedata folder
+    if not os.path.exists(os.path.join(config['directories']['mods'], name, 'gamedata')):
+        is_valid = False
+        logging.warning("mod '%s' has no gamedata folder", name)
+    # check if has any files in gamedata
     # check if has manifest.xml
     # check if manifest.xml is properly formatted
-    # check if has any files in gamedata
     return is_valid
 # class MyApp(App):
 #     def build(self):
