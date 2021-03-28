@@ -43,7 +43,7 @@ def list_mods():
     return mods
 
 def get_angband_folder():
-    # todo: prompt player to select Angband folder
+    # todo: prompt player to select Angband folder, instead of just hardcoding it for me
     return r"G:\angband-4.2.1"
 
 def startup():
