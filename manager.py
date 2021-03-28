@@ -34,6 +34,10 @@ def list_mods(config):
     # at some point going to want to verify these all have manifests or not
     return mods
 
+def get_angband_folder():
+    # todo: prompt player to select Angband folder
+    return r"G:\angband-4.2.1"
+
 def startup(config):
     # confirm config file exists
     read_config(config)
