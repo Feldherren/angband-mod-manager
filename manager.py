@@ -29,7 +29,7 @@ def make_config(config):
     save_config(config)
 
 def list_mods(config):
-    mods = [x[0] for x in os.walk(config['directories']['mods'])]
+    mods = [os.path.basename(os.path.normpath(f.path)) for f in os.scandir(config['directories']['mods']) if f.is_dir()]
     # is this sorted?
     # at some point going to want to verify these all have manifests or not
     return mods
