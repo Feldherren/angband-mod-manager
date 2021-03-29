@@ -63,26 +63,26 @@ def startup():
 
     # todo: prompt user if they want to save out current gamedata folder as vanilla
     if not 'angband' in list_mods():
-        make_mod(os.path.join(config['directories']['angband'], 'lib', 'gamedata'), 'angband', 'Angband 4.2.1', 'Angband', '4.2.1', ['4.2.1'])
+        make_mod(os.path.join(config['directories']['angband'], 'lib', 'gamedata'), 'angband', 'Angband 4.2.1', 'Angband', '4.2.1', target_versions=['4.2.1'])
 
 # takes a name and a location, copies contents as mod
 # probably want a better name for this; 'make_mod_from_preexisting'
 # also, check that the location isn't IN the mods folder in the first place; if it's correctly placed, no copying of files is necessary
-def make_mod(location, identifier, name, author, version, target_versions):
+def make_mod(location, identifier, name, author, version, target_versions=None):
     if name not in list_mods():
         if os.path.exists(location):
             os.mkdir(os.path.join(config['directories']['mods'], identifier))
             os.mkdir(os.path.join(config['directories']['mods'], identifier, 'gamedata'))
             for file in os.scandir(location):
                 shutil.copy(file, os.path.join(config['directories']['mods'], identifier, 'gamedata'))
-            make_manifest(os.path.join(config['directories']['mods'], identifier), identifier, name, author, version, target_versions)
+            make_manifest(os.path.join(config['directories']['mods'], identifier), identifier, name, author, version, target_versions=target_versions)
         else:
             logging.error("%s does not exist", location)
     else:
         logging.warning("mod '%s' already exists", identifier)
 
 # all of these are text except target_versions, which is a list of text
-def make_manifest(location, identifier, name, author, version, target_versions):
+def make_manifest(location, identifier, name, author, version, target_versions=[], compatible_with=[], incompatible_with=[], load_before=[], load_after=[]):
     # create manifest XML here
     if os.path.exists(os.path.join(config['directories']['mods'], identifier)):
         root = etree.Element("manifest")
@@ -96,8 +96,24 @@ def make_manifest(location, identifier, name, author, version, target_versions):
         version_node.text = version
         target_versions_node = etree.SubElement(root, "target_versions")
         for target_version in target_versions:
-            t_v = etree.SubElement(target_versions_node, "target_version")
-            t_v.text = target_version
+            c = etree.SubElement(target_versions_node, "target_version")
+            c.text = target_version
+        compatible_with_node = etree.SubElement(root, "compatible_with")
+        for mod in compatible_with:
+            c = etree.SubElement(compatible_with_node, "identifier")
+            c.text = mod
+        incompatible_with_node = etree.SubElement(root, "incompatible_with")
+        for mod in incompatible_with:
+            c = etree.SubElement(incompatible_with_node, "identifier")
+            c.text = mod
+        load_before_node = etree.SubElement(root, "load_before")
+        for mod in load_before:
+            c = etree.SubElement(load_before_node, "identifier")
+            c.text = mod
+        load_after_node = etree.SubElement(root, "load_after")
+        for mod in load_after:
+            c = etree.SubElement(load_after_node, "identifier")
+            c.text = mod
 
         et = etree.ElementTree(root)
         et.write(os.path.join(location, 'manifest.xml'), pretty_print=True)
