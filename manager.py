@@ -5,10 +5,11 @@ import logging
 
 from lxml import etree
 
-# import kivy
-# kivy.require('2.0.0')
-# from kivy.app import App
-# from kivy.uix.label import Label
+import kivy
+kivy.require('2.0.0')
+from kivy.app import App
+from kivy.uix.label import Label
+from kivy.uix.button import Button
 
 config = configparser.ConfigParser(allow_no_value=True)
 logging.basicConfig(level=logging.DEBUG)
@@ -62,8 +63,11 @@ def startup():
         # save_config(config)
 
     # todo: prompt user if they want to save out current gamedata folder as vanilla
-    if not 'angband' in list_mods():
-        make_mod(os.path.join(config['directories']['angband'], 'lib', 'gamedata'), 'angband', 'Angband 4.2.1', 'Angband', '4.2.1', target_versions=['4.2.1'])
+    # if not 'angband' in list_mods():
+        # make_mod(os.path.join(config['directories']['angband'], 'lib', 'gamedata'), 'angband', 'Angband 4.2.1', 'Angband', '4.2.1', target_versions=['4.2.1'])
+
+    # run the UI
+    MyApp().run()
 
 # takes a name and a location, copies contents as mod
 # probably want a better name for this; 'make_mod_from_preexisting'
@@ -82,7 +86,6 @@ def make_mod(location, identifier, name, author, version, target_versions=None):
         logging.warning("mod '%s' already exists", identifier)
 
 # all of these are text except target_versions, which is a list of text
-def make_manifest(location, identifier, name, author, version, target_versions=[], compatible_with=[], incompatible_with=[], load_before=[], load_after=[]):
 def make_manifest(location, identifier, name, author, version, target_versions=[], compatible_with=[],
                     incompatible_with=[], load_before=[], load_after=[]):
     # create manifest XML here
@@ -137,10 +140,9 @@ def validate_mod(identifier):
     # check if manifest.xml is properly formatted
     return is_valid
 
-# class MyApp(App):
-#     def build(self):
-#         return Label(text='Hello world')
+class MyApp(App):
+    def build(self):
+        return Button(text='Hello world')
 
 if __name__ == '__main__':
-    # MyApp().run()
     startup()
