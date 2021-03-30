@@ -83,6 +83,8 @@ def make_mod(location, identifier, name, author, version, target_versions=None):
 
 # all of these are text except target_versions, which is a list of text
 def make_manifest(location, identifier, name, author, version, target_versions=[], compatible_with=[], incompatible_with=[], load_before=[], load_after=[]):
+def make_manifest(location, identifier, name, author, version, target_versions=[], compatible_with=[],
+                    incompatible_with=[], load_before=[], load_after=[]):
     # create manifest XML here
     if os.path.exists(os.path.join(config['directories']['mods'], identifier)):
         root = etree.Element("manifest")
