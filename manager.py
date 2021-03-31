@@ -10,6 +10,10 @@ kivy.require('2.0.0')
 from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.button import Button
+from kivy.uix.widget import Widget
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.anchorlayout import AnchorLayout
 
 config = configparser.ConfigParser(allow_no_value=True)
 logging.basicConfig(level=logging.DEBUG)
@@ -67,7 +71,7 @@ def startup():
         # make_mod(os.path.join(config['directories']['angband'], 'lib', 'gamedata'), 'angband', 'Angband 4.2.1', 'Angband', '4.2.1', target_versions=['4.2.1'])
 
     # run the UI
-    MyApp().run()
+    ManagerApp().run()
 
 # takes a name and a location, copies contents as mod
 # probably want a better name for this; 'make_mod_from_preexisting'
@@ -143,6 +147,16 @@ def validate_mod(identifier):
 class MyApp(App):
     def build(self):
         return Button(text='Hello world')
+
+class ManagerWindow(AnchorLayout):
+    pass
+
+# class ManagerBar(GridLayout):
+    # pass
+
+class ManagerApp(App):
+    def build(self):
+        return ManagerWindow()
 
 if __name__ == '__main__':
     startup()
