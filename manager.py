@@ -1,22 +1,23 @@
 import configparser
 import os
 import shutil
-import logging
 
 from lxml import etree
 
 import kivy
 kivy.require('2.0.0')
 from kivy.app import App
+from kivy.logger import Logger, LOG_LEVELS
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.widget import Widget
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.anchorlayout import AnchorLayout
+from kivy.uix.dropdown import DropDown
 
 config = configparser.ConfigParser(allow_no_value=True)
-logging.basicConfig(level=logging.DEBUG)
+Logger.setLevel(LOG_LEVELS["debug"])
 
 mod_list = []
 
@@ -85,9 +86,9 @@ def make_mod(location, identifier, name, author, version, target_versions=None):
                 shutil.copy(file, os.path.join(config['directories']['mods'], identifier, 'gamedata'))
             make_manifest(os.path.join(config['directories']['mods'], identifier), identifier, name, author, version, target_versions=target_versions)
         else:
-            logging.error("%s does not exist", location)
+            Logger.error("%s does not exist", location)
     else:
-        logging.warning("mod '%s' already exists", identifier)
+        Logger.warning("mod '%s' already exists", identifier)
 
 # all of these are text except target_versions, which is a list of text
 def make_manifest(location, identifier, name, author, version, target_versions=[], compatible_with=[],
@@ -134,15 +135,17 @@ def validate_mod(identifier):
     # check if directory for mod exists
     if not os.path.exists(os.path.join(config['directories']['mods'], identifier)):
         is_valid = False
-        logging.warning("mod '%s' does not exist", identifier)
+        Logger.warning("mod '%s' does not exist", identifier)
     # check if has gamedata folder
     if not os.path.exists(os.path.join(config['directories']['mods'], identifier, 'gamedata')):
         is_valid = False
-        logging.warning("mod '%s' has no gamedata folder", identifier)
+        Logger.warning("mod '%s' has no gamedata folder", identifier)
     # check if has any files in gamedata; needs at least one?
     # check if has manifest.xml
     # check if manifest.xml is properly formatted
     return is_valid
+
+# Kivy stuff
 
 class MyApp(App):
     def build(self):
@@ -151,8 +154,8 @@ class MyApp(App):
 class ManagerWindow(AnchorLayout):
     pass
 
-# class ManagerBar(GridLayout):
-    # pass
+class PreferencesWindow(GridLayout):
+    pass
 
 class ManagerApp(App):
     def build(self):
