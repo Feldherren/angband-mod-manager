@@ -147,10 +147,6 @@ def validate_mod(identifier):
 
 # Kivy stuff
 
-class MyApp(App):
-    def build(self):
-        return Button(text='Hello world')
-
 class ManagerWindow(AnchorLayout):
     pass
 
