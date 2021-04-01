@@ -12,51 +12,12 @@
                 size_hint: (None,1)
                 padding_x: 5
                 size: self.texture_size
-                text: "File"
-                on_press: file_dropdown.open(self)
-                on_parent: file_dropdown.dismiss()
-            DropDown:
-                id: file_dropdown
-                auto_width: False
-                width: 200
-                #width: self.container.minimum_width
-
-                Button:
-                    id: open_angband
-                    size_hint_y: None
-                    height: 25
-                    padding_x: 5
-                    text: "Open Angband"
-                Button:
-                    id: save_mods
-                    size_hint_y: None
-                    height: 25
-                    padding_x: 5
-                    text: "Save Mod Configuation As..."
+                text: "Mods"
             Button:
                 size_hint: (None,1)
                 padding_x: 5
                 size: self.texture_size
-                text: "View"
-                on_press: view_dropdown.open(self)
-                on_parent: view_dropdown.dismiss()
-            DropDown:
-                id: view_dropdown
-                auto_width: False
-                width: 120
-
-                Button:
-                    id: sel_angband
-                    size_hint_y: None
-                    height: 25
-                    padding_x: 5
-                    text: "Mod List"
-                Button:
-                    id: export_gamedata
-                    size_hint_y: None
-                    height: 25
-                    padding_x: 5
-                    text: "Preferences"
+                text: "Preferences"
 
 <PreferencesWindow>:
     GridLayout:
