@@ -150,9 +150,6 @@ def validate_mod(identifier):
 class ManagerWindow(AnchorLayout):
     pass
 
-class PreferencesWindow(GridLayout):
-    pass
-
 class ManagerApp(App):
     def build(self):
         return ManagerWindow()
