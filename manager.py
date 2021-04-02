@@ -14,7 +14,11 @@ from kivy.uix.widget import Widget
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.anchorlayout import AnchorLayout
+from kivy.uix.relativelayout import RelativeLayout
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.dropdown import DropDown
+from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.core.window import Window
 
 config = configparser.ConfigParser(allow_no_value=True)
 Logger.setLevel(LOG_LEVELS["debug"])
@@ -150,9 +154,27 @@ def validate_mod(identifier):
 class ManagerWindow(AnchorLayout):
     pass
 
+class ModlistScreen(Screen):
+    pass
+
+class PreferenceScreen(Screen):
+    pass
+
 class ManagerApp(App):
     def build(self):
+        manager_window = ManagerWindow()
+        sm = ScreenManager()
+        sm.add_widget(PreferenceScreen(name='preferences'))
+        sm.add_widget(ModlistScreen(name='mod_list'))
+        manager_window.add_widget(sm)
         return ManagerWindow()
+    # def build(self):
+    #     # Create the screen manager
+    #     sm = ScreenManager()
+    #     sm.add_widget(ModlistScreen(name='mod_list'))
+    #     sm.add_widget(PreferenceScreen(name='preferences'))
+    #
+    #     return sm
 
 if __name__ == '__main__':
     startup()

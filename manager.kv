@@ -1,10 +1,10 @@
 #:kivy 2.0.0
 #:import Logger kivy.logger.Logger
 <ManagerWindow>:
-    AnchorLayout:
-        anchor_x: "left"
-        anchor_y: "top"
+    RelativeLayout:
+        id: rel_layout
         GridLayout:
+            pos: 0,self.parent.height-self.height
             size_hint: 1,None
             height: 25
             rows: 1
@@ -12,24 +12,33 @@
                 size_hint: (None,1)
                 padding_x: 5
                 size: self.texture_size
-                text: "Mods"
+                text: "Mod List"
+                on_press: self.parent.manager.current = 'mod_list'
             Button:
                 size_hint: (None,1)
                 padding_x: 5
                 size: self.texture_size
                 text: "Preferences"
-
-<PreferencesWindow>:
-    GridLayout:
-        Button:
-            id: sel_angband
-            size_hint_y: None
-            height: 25
-            padding_x: 5
-            text: "Select Angband Folder"
-        Button:
-            id: export_gamedata
-            size_hint_y: None
-            height: 25
-            padding_x: 5
-            text: "Export Gamedata Folder"
+                on_press: self.parent.manager.current = 'preferences'
+            Button:
+                size_hint: (None,1)
+                padding_x: 5
+                size: self.texture_size
+                text: "List Children"
+                on_press: Logger.info(root.__dict__)
+        ScreenManager:
+            Screen:
+                id: preferences
+                name: "preferences"
+                GridLayout:
+                    cols: 1
+                    Label:
+                        text: "Mod list goes here"
+                    Label:
+                        text: "Selected mod details go here"
+            Screen:
+                id: mod_list
+                name: "mod_list"
+                BoxLayout:
+                    Label:
+                        text: "Settings go here"
