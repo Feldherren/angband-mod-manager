@@ -164,8 +164,9 @@ class ManagerApp(App):
     def build(self):
         manager_window = ManagerWindow()
         sm = ScreenManager()
-        sm.add_widget(PreferenceScreen(name='preferences'))
         sm.add_widget(ModlistScreen(name='mod_list'))
+        sm.add_widget(PreferenceScreen(name='preferences'))
+        sm.current = 'mod_list'
         manager_window.add_widget(sm)
         return ManagerWindow()
     # def build(self):
